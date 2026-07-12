@@ -1,17 +1,55 @@
 package app;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import factory.FabricaLineaClaro;
+import factory.FabricaCreadora;
+import factory.FabricaLineaRapida;
+import factory.FabricaLineaMovistar;
+import model.PlanDatos;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+public class Main{
+
+    public static void main(String[] args) {
+        int megasConsumidos= 1000;
+        calculoPago("Linea Rapida", "Personal", megasConsumidos);
+        calculoPago("Linea Rapida", "Negocio", megasConsumidos);
+        calculoPago("Linea Rapida", "Academico", megasConsumidos);
+
+        calculoPago("Claro", "Personal", megasConsumidos);
+        calculoPago("Claro", "Negocio", megasConsumidos);
+        calculoPago("Claro", "Academico", megasConsumidos);
+
+        calculoPago("Movistar", "Personal", megasConsumidos);
+        calculoPago("Movistar", "Negocio", megasConsumidos);
+        calculoPago("Movistar", "Academico", megasConsumidos);
+    }
+
+    public static void calculoPago(String proveedor, String tipoPlan, int numeroMegasConsumido){
+        FabricaCreadora fabrica;
+        switch (proveedor.toLowerCase()) {
+
+            case "linea rapida":
+                fabrica = new FabricaLineaRapida();
+                break;
+
+            case "claro":
+                fabrica = new FabricaLineaClaro();
+                break;
+
+            case "movistar":
+                fabrica = new FabricaLineaMovistar();
+                break;
+
+            default:
+                System.out.println("Proveedor no válido");
+                return;
         }
+
+        PlanDatos plan= fabrica.crearPlanDatos(tipoPlan);
+        float pago= plan.calculoPago(numeroMegasConsumido);
+        System.out.println("--------------------------------");
+        System.out.println("Proveedor: "+proveedor);
+        System.out.println("Plan: "+tipoPlan);
+        System.out.println("Megas consumidos: "+numeroMegasConsumido);
+        System.out.println("Pago total: S/ "+pago);
     }
 }
